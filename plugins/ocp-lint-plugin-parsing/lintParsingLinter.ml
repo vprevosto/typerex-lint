@@ -71,7 +71,7 @@ let w_inconsistent_list_notations = Linter.new_warning
 let w_avoid_paren_around_constr_uniq_arg = Linter.new_warning
     ~id:4
     ~short_name:"avoid_paren.constr_uniq_arg"
-    ~msg:"Avoid parentheses around constructor \"$constr\" uniq argument"
+    ~msg:"Avoid parentheses around constructor \"$constr\" unique argument"
     ~severity:1
 let w_avoid_paren_around_simple_expr = Linter.new_warning
     ~id:5

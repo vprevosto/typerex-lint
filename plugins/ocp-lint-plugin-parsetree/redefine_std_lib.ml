@@ -24,7 +24,7 @@ let details =
   "Checks that we do not redefine a stdlib module."
 
 module RedefineStdLib = Plugin_parsetree.Plugin.MakeLint(struct
-    let name = "Refedine Stdlib Module"
+    let name = "Redefine Stdlib Module"
     let version = "1"
     let short_name = "code_redefine_stdlib_module"
     let details = details
@@ -37,13 +37,13 @@ type warning =
 
 let w_redefined_std = RedefineStdLib.new_warning
     ~id:1
-    ~short_name:"redfine_stdlib_module"
+    ~short_name:"redefine_stdlib_module"
     ~msg:"$mod is a stdlib module and should not be masked."
     ~severity:7
 
 let w_redefined_cpl = RedefineStdLib.new_warning
     ~id:2
-    ~short_name:"redfine_compilerlib_module"
+    ~short_name:"redefine_compilerlib_module"
     ~msg:"$mod is a compilerlib module and should not be masked."
     ~severity:7
 
