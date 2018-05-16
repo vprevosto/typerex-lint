@@ -1,4 +1,4 @@
-let unrecommanded_modules = [
+let unrecommended_modules = [
   Path.Pident (
       Ident.create "Obj"
     );
@@ -72,14 +72,14 @@ module Linter = Plugin_typedtree.Plugin.MakeLint(struct
   end)
 
 type warning =
-  | IdentifierInUnrecommandedModule of Path.t * Path.t
+  | IdentifierInUnrecommendedModule of Path.t * Path.t
   | UseOpenDirective of Path.t
   | UseEnvironmentModificationModule of Path.t
 
-let w_identifier_in_unrecommanded_mod = Linter.new_warning
+let w_identifier_in_unrecommended_mod = Linter.new_warning
     ~id:1
-    ~short_name:"identifier_from_unrecommanded_module"
-    ~msg:"Identifier \"$ident\" is in the unrecommanded module $mod."
+    ~short_name:"identifier_from_unrecommended_module"
+    ~msg:"Identifier \"$ident\" is in the unrecommended module $mod."
     ~severity:1
 
 let w_open_directive = Linter.new_warning
@@ -98,8 +98,8 @@ module Warnings = Linter.MakeWarnings(struct
     type t = warning
 
     let to_warning = function
-      | IdentifierInUnrecommandedModule (ident, pmod) ->
-	 w_identifier_in_unrecommanded_mod, [
+      | IdentifierInUnrecommendedModule (ident, pmod) ->
+	 w_identifier_in_unrecommended_mod, [
           ("ident",Path.name ident);
           ("mod",Path.name pmod)
         ]
@@ -115,15 +115,15 @@ let iter =
   let module IterArg = struct
     include Typedtree_iter.DefaultIteratorArgument
 
-    let unrecommanded_parent ipath =
+    let unrecommended_parent ipath =
       let ident_path = list_of_path ipath in
       try
-        let unrecommanded_mdl =
+        let unrecommended_mdl =
           List.find begin fun mdl ->
             is_prefixed (list_of_path mdl) ident_path
-          end unrecommanded_modules
+          end unrecommended_modules
         in
-        Some unrecommanded_mdl
+        Some unrecommended_mdl
       with
         Not_found -> None
 
@@ -143,11 +143,11 @@ let iter =
       Warnings.report loc (UseOpenDirective mpath)
 
     let process_ident ident_path loc =
-      begin match unrecommanded_parent ident_path with
+      begin match unrecommended_parent ident_path with
       | Some parent ->
          Warnings.report
            loc
-           (IdentifierInUnrecommandedModule (ident_path, parent))
+           (IdentifierInUnrecommendedModule (ident_path, parent))
       | None ->
          ()
       end;
